@@ -151,32 +151,9 @@ export default function Calendar({ onSelectSlot, therapistId, therapistName }) {
         (slot) => {
           // Handle different date formats - extract just the date part
           const slotDateStr = new Date(slot.date).toISOString().slice(0, 10); // Extract YYYY-MM-DD from datetime
-          console.log("selected date", dateStr);
-          console.log("slots date", slotDateStr)
           return slotDateStr === dateStr && slot.time === time;
         }
       );
-      console.log(time)
-
-      // Debug logging for 11:00 AM slot
-      if (time === '11:00 AM') {
-        console.log('=== DEBUG 11:00 AM SLOT ===');
-        console.log('Date:', dateStr);
-        console.log('Time:', time);
-        console.log('All available slots:', availableSlots);
-        console.log('Slot bookings for this time:', slotBookings);
-        console.log('Slot bookings length:', slotBookings.length);
-        slotBookings.forEach((booking, idx) => {
-          console.log(`Booking ${idx}:`, {
-            id: booking.id,
-            date: booking.date,
-            time: booking.time,
-            status: booking.status,
-            user_name: booking.user_name,
-            therapist_name: booking.therapist_name
-          });
-        });
-      }
 
       let isAvailable = true;
       let isCompleted = false;
@@ -205,7 +182,6 @@ export default function Calendar({ onSelectSlot, therapistId, therapistName }) {
           (slot) => {
             const status = slot.status?.toLowerCase();
             const shouldBlock = (
-              status === 'completed' ||
               status === 'pending' ||
               status === 'accepted'
             );

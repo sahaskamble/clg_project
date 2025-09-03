@@ -26,8 +26,6 @@ export default function TherapistViewPage() {
   const [customDate, setCustomDate] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
-  console.log("Therapist profile id ", therapistId);
-
   // ✅ Fixed: Date filter uses range instead of exact string
   const getDateFilterString = () => {
     const today = new Date();
@@ -114,13 +112,11 @@ export default function TherapistViewPage() {
       if (!therapistId) return;
 
       setIsLoading(true);
-      console.log("fetching data", therapistId);
 
       const res = await pb.collection('therapist_profile').getFullList({
         filter: `therapistId = "${therapistId}"`
       });
 
-      console.log("Res", res)
       if (res && res.length > 0) {
         // Profile exists, populate the form
         setProfileExists(true);
@@ -157,11 +153,10 @@ export default function TherapistViewPage() {
   }
 
   const fetchBookingRequests = async () => {
-    console.log("IN")
+
     if (!therapistId) return;
-    console.log("IN Here to")
+
     try {
-      console.log("IN Here too")
       let statusArr = [];
       if (statusFilter === 'all') {
         statusArr = ['pending', 'accepted', 'declined', 'completed'];
@@ -183,8 +178,6 @@ export default function TherapistViewPage() {
         expand: 'user_id'
       });
 
-      console.log("Request IN tooo", requests)
-
       // Fetch user_profile for each request
       const requestsWithProfile = await Promise.all(
         requests.items.map(async (req) => {
@@ -196,7 +189,6 @@ export default function TherapistViewPage() {
               const profiles = await pb.collection('user_profile').getFullList({
                 filter: `userId="${req.expand.user_id.id}"`
               });
-              console.log("Finding user profile", profiles)
               if (profiles.length > 0) {
                 username = profiles[0].username || 'User';
                 userProfileId = profiles[0].id;
@@ -216,13 +208,11 @@ export default function TherapistViewPage() {
           return { ...req, userProfileUsername: username, userProfileId };
         })
       );
-      console.log("Request With Profile", requestsWithProfile)
       setBookingRequests(requestsWithProfile);
     } catch (error) {
       console.error(error);
     }
   };
-
 
   useEffect(() => {
     if (profileExists) {
@@ -234,7 +224,6 @@ export default function TherapistViewPage() {
   const handleSave = async () => {
     try {
       const filteredSpecializations = specializations.filter(spec => spec.trim() !== '');
-      console.log("filteredSpecializations", filteredSpecializations);
       if (profileExists) {
         // Update existing profile
         await pb.collection('therapist_profile').update(profileId, {
