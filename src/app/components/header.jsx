@@ -88,7 +88,7 @@ const handleProfileClick = async () => {
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center space-x-8 text-lg font-semibold text-purple-900">
                     <a href="#" className="hover:text-black transition-colors duration-200">REFERENCES</a>
-                    <a href="#" className="hover:text-black transition-colors duration-200">RESOURCES</a>
+                    <a href="/therapistinfopage" className="hover:text-black transition-colors duration-200">THERAPISTS</a>
                     <a href="#" className="hover:text-black transition-colors duration-200">HOME</a>
                     <a href="#" className="hover:text-black transition-colors duration-200">BLOG</a>
                     <button className="hover:text-black transition-colors duration-200">

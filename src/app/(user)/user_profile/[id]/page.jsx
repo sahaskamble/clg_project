@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding, faUser, faLock, faArrowLeft, faUserPlus, faSave, faEdit, faGraduationCap, faBriefcase, faTags, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faUser, faLock, faArrowLeft, faUserPlus, faSave, faEdit, faGraduationCap, faBriefcase, faTags, faPlus, faTimes, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-    
+
 export default function UserViewPage() {
     const router = useRouter();
 
@@ -19,6 +19,9 @@ export default function UserViewPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [concerns, setConcerns] = useState(['']);
     const [bookings, setBookings] = useState([]);
+    const [dateFilter, setDateFilter] = useState('all');
+    const [customDate, setCustomDate] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all');
 
 
     useEffect(() => {
@@ -40,9 +43,7 @@ export default function UserViewPage() {
             }
 
             // Fetch the user profile by userId filter
-            const res = await pb
-                .collection('user_profile')
-                .getFirstListItem(`userId="${userId}"`);
+            const res = await pb.collection('user_profile').getFirstListItem(`userId="${userId}"`);
 
             if (res) {
                 setProfileExists(true);
@@ -84,15 +85,15 @@ export default function UserViewPage() {
         try {
             const filteredConcerns = concerns.filter(concern => concern.trim() !== '');
             console.log("filteredConcerns", filteredConcerns);
-if (!profileExists) {
-            console.log({
-                gender,
-                age,
-                profession,
-                concerns: filteredConcerns,
-                
-            });
-        }
+            if (!profileExists) {
+                console.log({
+                    gender,
+                    age,
+                    profession,
+                    concerns: filteredConcerns,
+
+                });
+            }
             if (profileExists) {
 
                 // Update existing profile
@@ -201,6 +202,31 @@ if (!profileExists) {
             alert("Failed to delete account: " + error.message);
         }
     };
+
+    const filteredBookings = bookings.filter((booking) => {
+        let matchesStatus = statusFilter === 'all' || booking.status === statusFilter;
+
+        let matchesDate = true;
+        const bookingDate = new Date(booking.date);
+
+        if (dateFilter === 'today') {
+            const today = new Date();
+            matchesDate = bookingDate.toDateString() === today.toDateString();
+        } else if (dateFilter === 'yesterday') {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            matchesDate = bookingDate.toDateString() === yesterday.toDateString();
+        } else if (dateFilter === 'tomorrow') {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            matchesDate = bookingDate.toDateString() === tomorrow.toDateString();
+        } else if (dateFilter === 'custom' && customDate) {
+            matchesDate = bookingDate.toDateString() === new Date(customDate).toDateString();
+        }
+
+        return matchesStatus && matchesDate;
+    });
+
 
     if (isLoading) {
         return (
@@ -420,19 +446,77 @@ if (!profileExists) {
                         <div className="mt-8">
                             <h2 className="text-2xl font-bold text-purple-900 mb-4">Your Appointments</h2>
 
-                            {bookings.length === 0 ? (
+
+                            {/* Filters Section with Dropdowns */}
+                            <div className="bg-white rounded-xl shadow-md p-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="font-semibold text-purple-700 mr-2">Filter by Date:</span>
+                                    <div className="relative">
+                                        <select
+                                            className="px-3 text-black py-1 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                            value={dateFilter}
+                                            onChange={(e) => {
+                                                setDateFilter(e.target.value);
+                                                if (e.target.value !== 'custom') setCustomDate('');
+                                            }}
+                                        >
+                                            <option value="all">All Dates</option>
+                                            <option value="yesterday">Yesterday</option>
+                                            <option value="today">Today</option>
+                                            <option value="tomorrow">Tomorrow</option>
+                                            <option value="custom">Custom Date</option>
+                                        </select>
+                                    </div>
+
+                                    {dateFilter === 'custom' && (
+                                        <label className="flex items-center ml-2">
+                                            <FontAwesomeIcon icon={faCalendarAlt} className="mr-1 text-purple-600" />
+                                            <input
+                                                type="date"
+                                                className="border rounded px-2 py-1 focus:ring-2 focus:ring-purple-500"
+                                                value={customDate}
+                                                onChange={e => setCustomDate(e.target.value)}
+                                            />
+                                        </label>
+                                    )}
+                                </div>
+
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="font-semibold text-purple-700 mr-2">Status:</span>
+                                    <div className="relative">
+                                        <select
+                                            className="px-3 py-1 text-black rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                            value={statusFilter}
+                                            onChange={(e) => setStatusFilter(e.target.value)}
+                                        >
+                                            <option value="all">All </option>
+                                            <option value="accepted">Accepted</option>
+                                            <option value="declined">Rejected</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="pending">Pending</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {filteredBookings.length === 0 ? (
                                 <p className="text-gray-500">You haven't booked any appointments yet.</p>
                             ) : (
                                 <div className="space-y-4">
-                                    {bookings.map(booking => (
+                                    {filteredBookings.map(booking => (
                                         <div key={booking.id} className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <h3 className="font-semibold text-lg">
-                                                        {booking.expand?.therapist_id?.expand?.user?.name || 'Therapist'}
+                                                        {booking.user_name || 'Therapist'}
                                                     </h3>
                                                     <p className="text-gray-600">
-                                                        {new Date(booking.date).toLocaleDateString()} at {booking.time.substring(11, 16)}
+                                                        {new Date(booking.date).toLocaleDateString('en-US', {
+                                                            weekday: 'long',
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric'
+                                                        })} at {booking.time}
                                                     </p>
                                                 </div>
                                                 <div>

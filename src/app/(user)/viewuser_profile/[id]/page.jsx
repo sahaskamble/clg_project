@@ -1,154 +1,206 @@
 'use client';
+
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { pb } from '@/app/lib/pocketbase';
+import { pb } from '../../../lib/pocketbase';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBriefcase, faGraduationCap, faTags } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faArrowLeft, 
+  faUser, 
+  faVenusMars, 
+  faBirthdayCake, 
+  faBriefcase, 
+  faHeart, 
+  faEnvelope,
+  faCalendarAlt
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function ViewUserProfile() {
-    const params = useParams();
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const { id } = useParams();
+  const [profile, setProfile] = useState(null);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Get id from params safely
-    const id = params?.id;
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setIsLoading(true);
+        const res = await pb.collection('user_profile').getOne(id, {
+          expand: 'userId',
+        });
+        setProfile(res);
+      } catch (err) {
+        console.error("Error fetching user profile:", err);
+        setError('User profile does not exist');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Check if id is available
-                if (!id) {
-                    console.log("Waiting for id parameter...");
-                    return;
-                }
+    if (id) fetchProfile();
+  }, [id]);
 
-                console.log("URL param id (profileId) =", id);
-
-                // Fetch directly by profile id
-                const res = await pb.collection('user_profile').getOne(id, { 
-                    expand: 'userId',
-                    requestKey: null // Prevent request deduplication
-                });
-                
-                setUser(res);
-                console.log("Expanded user data:", res.expand?.userId);
-
-            } catch (error) {
-                console.error("Error fetching user profile:", error);
-                setError(error.message || "Failed to load profile");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        // Only fetch if we have an id
-        if (id) {
-            fetchData();
-        }
-    }, [id]); // Dependency on id
-
-    // Show loading state
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white py-10 px-4">
-                <div className="max-w-3xl mx-auto">
-                    <div className="text-center">
-                        <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                        <p className="text-purple-800 font-medium">Loading profile...</p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // Show error state
-    if (error) {
-        return (
-            <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white py-10 px-4">
-                <div className="max-w-3xl mx-auto">
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-                        <strong className="font-bold">Error: </strong>
-                        <span className="block sm:inline">{error}</span>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
+  if (isLoading) {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white py-10 px-4">
-            <div className="max-w-3xl mx-auto">
-                {/* Header Section */}
-                <div className="bg-gradient-to-r from-purple-600 to-indigo-500 text-white rounded-xl shadow-lg p-6 mb-8 flex justify-between items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold">User Profile</h1>
-                        <p className="text-sm opacity-90">View professional information of the user</p>
-                    </div>
-                </div>
-
-                {/* Profile Details */}
-                {user ? (
-                    <div className="bg-white rounded-2xl shadow p-6 space-y-6">
-                        <p>User name = {user.username}</p>
-                        
-                        {/* Bio */}
-                        <div>
-                            <div className="flex items-center gap-2 text-purple-700 font-medium">
-                                <FontAwesomeIcon icon={faUser} />
-                                <span>Profession</span>
-                            </div>
-                            <p className="mt-2 bg-gray-50 p-3 rounded-lg text-gray-700">{user.profession || "Not provided"}</p>
-                        </div>
-
-                        {/* Experience + Qualification */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <div className="flex items-center gap-2 text-purple-700 font-medium">
-                                    <FontAwesomeIcon icon={faBriefcase} />
-                                    <span>Age</span>
-                                </div>
-                                <p className="mt-2 bg-gray-50 p-3 rounded-lg text-gray-700">
-                                    {user.age ? `${user.age} years` : "Not provided"}
-                                </p>
-                            </div>
-                            <div>
-                                <div className="flex items-center gap-2 text-purple-700 font-medium">
-                                    <FontAwesomeIcon icon={faGraduationCap} />
-                                    <span>Gender</span>
-                                </div>
-                                <p className="mt-2 bg-gray-50 p-3 rounded-lg text-gray-700">{user.gender || "Not provided"}</p>
-                            </div>
-                        </div>
-
-                        {/* Specializations */}
-                        <div>
-                            <div className="flex items-center gap-2 text-purple-700 font-medium">
-                                <FontAwesomeIcon icon={faTags} />
-                                <span>Concerns</span>
-                            </div>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                {user.concerns && user.concerns.length > 0 ? (
-                                    user.concerns.map((conc, idx) => (
-                                        <span
-                                            key={idx}
-                                            className="px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-700 font-medium"
-                                        >
-                                            {conc}
-                                        </span>
-                                    ))
-                                ) : (
-                                    <p className="text-gray-500">Not provided</p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="bg-white rounded-xl shadow p-6 text-center text-gray-500">
-                        No user profile found.
-                    </div>
-                )}
-            </div>
+      <div className="flex justify-center items-center h-screen bg-gray-50">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-purple-800 font-medium">Loading profile...</p>
         </div>
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex items-center justify-center">
+        <div className="max-w-md mx-auto p-6 text-center">
+          <div className="bg-white rounded-xl shadow-md p-8">
+            <div className="text-red-600 text-lg font-medium mb-4">{error}</div>
+            <Link href="/" className="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+              <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+              Back to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profile) return null;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="mb-6">
+          <Link href="/" className="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+            <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+            Back to Home
+          </Link>
+        </div>
+        
+        {/* Header with gradient background */}
+        <div className="bg-gradient-to-r from-purple-700 to-indigo-800 rounded-lg shadow-lg p-6 mb-8 text-white">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold">User Profile</h1>
+              <p className="mt-2 text-purple-100">
+                Viewing profile information for {profile.username || 'User'}
+              </p>
+            </div>
+            <div className="bg-white text-purple-800 px-4 py-2 rounded-md flex items-center">
+              <FontAwesomeIcon icon={faUser} className="mr-2" />
+              Client Profile
+            </div>
+          </div>
+        </div>
+
+        {/* Main content card */}
+        <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+          <div className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Username */}
+              <div className="md:col-span-2">
+                <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                  Username
+                </label>
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                  <p className="text-gray-700">{profile.username || 'Not specified'}</p>
+                </div>
+              </div>
+
+              {/* Gender */}
+              <div>
+                <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faVenusMars} className="mr-2 text-purple-600" />
+                  Gender
+                </label>
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                  <p className="text-gray-700">{profile.gender || 'Not specified'}</p>
+                </div>
+              </div>
+
+              {/* Age */}
+              <div>
+                <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faBirthdayCake} className="mr-2 text-purple-600" />
+                  Age
+                </label>
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                  <p className="text-gray-700">{profile.age || 'Not specified'}</p>
+                </div>
+              </div>
+
+              {/* Profession */}
+              <div>
+                <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-2 text-purple-600" />
+                  Profession
+                </label>
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                  <p className="text-gray-700">{profile.profession || 'Not specified'}</p>
+                </div>
+              </div>
+
+              {/* Concerns */}
+              <div className="md:col-span-2">
+                <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faHeart} className="mr-2 text-purple-600" />
+                  Concerns
+                </label>
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                  {profile.concerns && profile.concerns.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {profile.concerns.map((concern, index) => (
+                        <span
+                          key={index}
+                          className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
+                        >
+                          {concern}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-400 italic">No concerns listed</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Email from expanded user */}
+              {profile.expand?.userId && (
+                <div className="md:col-span-2">
+                  <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                    <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-purple-600" />
+                    Email Address
+                  </label>
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <p className="text-gray-700">{profile.expand.userId.email}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Account Creation Date */}
+              <div className="md:col-span-2">
+                <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-purple-600" />
+                  Member Since
+                </label>
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                  <p className="text-gray-700">
+                    {new Date(profile.created).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
