@@ -67,12 +67,12 @@ export default function SignUpPage() {
                     className="object-cover"
                     priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-indigo-900/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-indigo-900/80"></div>
             </div>
 
             {/* Back to home link */}
             <div className="relative z-10 pt-4 pl-4">
-                <Link href="/" className="inline-flex items-center text-white hover:text-purple-200 transition-colors text-sm">
+                <Link href="/" className="inline-flex items-center text-white hover:text-blue-200 transition-colors text-sm">
                     <FontAwesomeIcon icon={faArrowLeft} className="mr-1 text-xs" />
                     <span>Back To Home Page</span>
                 </Link>
@@ -82,39 +82,39 @@ export default function SignUpPage() {
             <div className="relative z-10 flex justify-center items-center min-h-screen py-12 px-4">
                 <div className="bg-white rounded-lg shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
                     {/* Left side - Brand information */}
-                    <div className="bg-purple-900 text-white p-6 md:w-1/3 flex flex-col justify-between">
+                    <div className="bg-blue-900 text-white p-6 md:w-1/3 flex flex-col justify-between">
                         <div>
                             <div className="flex items-center mb-4">
                                 <FontAwesomeIcon icon={faBuilding} className="text-xl mr-2" />
                                 <h2 className="text-lg font-bold">Blue Sage</h2>
                             </div>
                             <h1 className="text-2xl font-bold mb-3">User Registration</h1>
-                            <p className="mb-6 text-purple-100">
+                            <p className="mb-6 text-blue-100">
                                 Join our platform to access personalized healthcare services. Create your account to get started.
                             </p>
                             <div className="space-y-4 mt-8">
                                 <div className="flex items-center">
-                                    <div className="w-10 h-10 rounded-full bg-purple-800 flex items-center justify-center mr-3">
-                                        <FontAwesomeIcon icon={faUser} className="text-purple-200" />
+                                    <div className="w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center mr-3">
+                                        <FontAwesomeIcon icon={faUser} className="text-blue-200" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold">Personal Account</h3>
-                                        <p className="text-sm text-purple-200">Access your personalized dashboard</p>
+                                        <p className="text-sm text-blue-200">Access your personalized dashboard</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
-                                    <div className="w-10 h-10 rounded-full bg-purple-800 flex items-center justify-center mr-3">
-                                        <FontAwesomeIcon icon={faLock} className="text-purple-200" />
+                                    <div className="w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center mr-3">
+                                        <FontAwesomeIcon icon={faLock} className="text-blue-200" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold">Secure Access</h3>
-                                        <p className="text-sm text-purple-200">Your data is protected and private</p>
+                                        <p className="text-sm text-blue-200">Your data is protected and private</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-12 pt-6 border-t border-purple-800">
-                            <p className="text-sm text-purple-200">
+                        <div className="mt-12 pt-6 border-t border-blue-800">
+                            <p className="text-sm text-blue-200">
                                 &copy; 2023 Blue Sage Healthcare. All rights reserved.
                             </p>
                         </div>
@@ -123,7 +123,7 @@ export default function SignUpPage() {
                     {/* Right side - Form */}
                     <div className="p-6 md:w-2/3">
                         <div className="mb-6">
-                            <h2 className="text-xl font-bold text-purple-950 mb-1 text-center">Create Your Account</h2>
+                            <h2 className="text-xl font-bold text-blue-950 mb-1 text-center">Create Your Account</h2>
                             <p className="text-gray-600 text-sm">Please enter your details below</p>
                         </div>
 
@@ -139,7 +139,7 @@ export default function SignUpPage() {
                                     <input
                                         type="text"
                                         id="name"
-                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Enter your full name"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
@@ -158,7 +158,7 @@ export default function SignUpPage() {
                                     <input
                                         type="email"
                                         id="email"
-                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Enter your email address"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
@@ -177,7 +177,7 @@ export default function SignUpPage() {
                                     <input
                                         type="text"
                                         id="username"
-                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Choose a username"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
@@ -196,7 +196,7 @@ export default function SignUpPage() {
                                     <input
                                         type="password"
                                         id="password"
-                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Create a password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
@@ -215,7 +215,7 @@ export default function SignUpPage() {
                                     <input
                                         type="password"
                                         id="confirmPassword"
-                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Confirm your password"
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
@@ -227,7 +227,7 @@ export default function SignUpPage() {
                             <div className="flex items-center justify-between pt-4">
                                 <button
                                     type="button"
-                                    className="w-full bg-purple-900 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded-md shadow transition-colors duration-200"
+                                    className="w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-md shadow transition-colors duration-200"
                                     onClick={handleSignUp}
                                 >
                                     Sign Up
@@ -237,7 +237,7 @@ export default function SignUpPage() {
                             <div className="text-center mt-4">
                                 <p className="text-sm text-gray-600">
                                     Already have an account?{" "}
-                                    <Link href="/therapist_login" className="text-purple-600 hover:text-purple-800 font-medium">
+                                    <Link href="/therapist_login" className="text-blue-600 hover:text-blue-800 font-medium">
                                         Log in
                                     </Link>
                                 </p>

@@ -11,11 +11,13 @@ import {
   faGraduationCap, 
   faTags, 
   faEnvelope,
-  faCalendarAlt,
+  faCalendar,
   faCheckCircle,
   faClock,
   faTimesCircle,
-  faHourglassHalf
+  faHourglassHalf,
+  faPhone, 
+  faLocationDot
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminViewTherapist() {
@@ -69,8 +71,8 @@ export default function AdminViewTherapist() {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-50">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-purple-800 font-medium">Loading therapist profile...</p>
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-blue-800 font-medium">Loading therapist profile...</p>
         </div>
       </div>
     );
@@ -78,11 +80,11 @@ export default function AdminViewTherapist() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center">
         <div className="max-w-md mx-auto p-6 text-center">
           <div className="bg-white rounded-xl shadow-md p-8">
             <div className="text-red-600 text-lg font-medium mb-4">{error}</div>
-            <Link href="/admin_dashboard" className="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+            <Link href="/dashboard" className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
               <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
               Back to Dashboard
             </Link>
@@ -108,25 +110,25 @@ export default function AdminViewTherapist() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <div className="max-w-4xl mx-auto p-6">
         <div className="mb-6">
-          <Link href="/admin_dashboard" className="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+          <Link href="/dashboard" className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
             <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
             Back to Dashboard
           </Link>
         </div>
         
         {/* Header with gradient background */}
-        <div className="bg-gradient-to-r from-purple-700 to-indigo-800 rounded-lg shadow-lg p-6 mb-8 text-white">
+        <div className="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-lg shadow-lg p-6 mb-8 text-white">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold">Therapist Profile Review</h1>
-              <p className="mt-2 text-purple-100">
+              <p className="mt-2 text-blue-100">
                 Admin view of therapist application and profile details
               </p>
             </div>
-            <div className="bg-white text-purple-800 px-4 py-2 rounded-md flex items-center">
+            <div className="bg-white text-blue-800 px-4 py-2 rounded-md flex items-center">
               {getStatusIcon()}
               <span className="capitalize">{profile.status}</span>
             </div>
@@ -140,18 +142,20 @@ export default function AdminViewTherapist() {
               {/* Username */}
               <div>
                 <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                  <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                  <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-600" />
                   Username
                 </label>
                 <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                  <p className="text-gray-700">{profile.username || 'Not specified'}</p>
+                  <p className="text-gray-700">
+                    {profile.username || profile.expand?.therapistId?.username || 'Not specified'}
+                  </p>
                 </div>
               </div>
 
               {/* Bio */}
               <div>
                 <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                  <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                  <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-600" />
                   Professional Bio
                 </label>
                 <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -163,7 +167,7 @@ export default function AdminViewTherapist() {
                 {/* Experience */}
                 <div>
                   <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faBriefcase} className="mr-2 text-purple-600" />
+                    <FontAwesomeIcon icon={faBriefcase} className="mr-2 text-blue-600" />
                     Years of Experience
                   </label>
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -174,7 +178,7 @@ export default function AdminViewTherapist() {
                 {/* Qualification */}
                 <div>
                   <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faGraduationCap} className="mr-2 text-purple-600" />
+                    <FontAwesomeIcon icon={faGraduationCap} className="mr-2 text-blue-600" />
                     Qualifications
                   </label>
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -183,10 +187,34 @@ export default function AdminViewTherapist() {
                 </div>
               </div>
 
+              <div className="flex gap-6">
+                {/* Location */}
+                <div className="w-1/2">
+                  <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                    <FontAwesomeIcon icon={faLocationDot} className="mr-2 text-blue-600" />
+                    Location
+                  </label>
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <p className="text-gray-700">{profile.location || "No location listed"}</p>
+                  </div>
+                </div>
+
+                {/* Contact */}
+                <div className="w-1/2">
+                  <label className="flex items-center text-md font-medium text-gray-700 mb-2">
+                    <FontAwesomeIcon icon={faPhone} className="mr-2 text-blue-600" />
+                    Contact No.
+                  </label>
+                  <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <p className="text-gray-700">{profile.contact || "No contact listed"}</p>
+                  </div>
+                </div>
+              </div>
+
               {/* Specializations */}
               <div>
                 <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                  <FontAwesomeIcon icon={faTags} className="mr-2 text-purple-600" />
+                  <FontAwesomeIcon icon={faTags} className="mr-2 text-blue-600" />
                   Specializations
                 </label>
                 <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -196,13 +224,13 @@ export default function AdminViewTherapist() {
                         profile.specializations.map((spec, index) => (
                           <span
                             key={index}
-                            className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
+                            className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
                           >
                             {spec}
                           </span>
                         ))
                       ) : (
-                        <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                        <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
                           {profile.specializations}
                         </span>
                       )}
@@ -216,11 +244,11 @@ export default function AdminViewTherapist() {
               {/* Account Information */}
               {profile.expand?.therapistId && (
                 <div>
-                  <h3 className="text-xl font-semibold text-purple-800 mb-4 border-b pb-2">Account Information</h3>
+                  <h3 className="text-xl font-semibold text-blue-800 mb-4 border-b pb-2">Account Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                        <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                        <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-600" />
                         Name
                       </label>
                       <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -230,7 +258,7 @@ export default function AdminViewTherapist() {
 
                     <div>
                       <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                        <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-purple-600" />
+                        <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-blue-600" />
                         Email
                       </label>
                       <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
@@ -243,40 +271,44 @@ export default function AdminViewTherapist() {
 
               {/* Timestamps */}
               <div>
-                <h3 className="text-xl font-semibold text-purple-800 mb-4 border-b pb-2">Timestamps</h3>
+                <h3 className="text-xl font-semibold text-blue-800 mb-4 border-b pb-2">Timestamps</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                      <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-purple-600" />
+                      <FontAwesomeIcon icon={faCalendar} className="mr-2 text-blue-600" />
                       Profile Created
                     </label>
                     <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
                       <p className="text-gray-700">
-                        {new Date(profile.created).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}
+                        {profile.created 
+                          ? new Date(profile.created).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })
+                          : 'Not available'}
                       </p>
                     </div>
                   </div>
 
                   <div>
                     <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                      <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-purple-600" />
+                      <FontAwesomeIcon icon={faCalendar} className="mr-2 text-blue-600" />
                       Last Updated
                     </label>
                     <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
                       <p className="text-gray-700">
-                        {new Date(profile.updated).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}
+                        {profile.updated 
+                          ? new Date(profile.updated).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })
+                          : 'Not available'}
                       </p>
                     </div>
                   </div>
@@ -285,7 +317,7 @@ export default function AdminViewTherapist() {
 
               {/* Admin Actions */}
               <div className="pt-6 border-t">
-                <h3 className="text-xl font-semibold text-purple-800 mb-4">Admin Actions</h3>
+                <h3 className="text-xl font-semibold text-blue-800 mb-4">Admin Actions</h3>
                 <div className="flex flex-wrap gap-4">
                   {profile.status !== 'accepted' && (
                     <button

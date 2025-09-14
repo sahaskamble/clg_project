@@ -240,7 +240,7 @@ useEffect(() => {
             : isCompleted
               ? 'bg-gray-400 text-white cursor-not-allowed'
               : isAvailable
-                ? 'bg-yellow-400 text-purple-900 hover:bg-yellow-500 hover:shadow-md transform hover:-translate-y-1'
+                ? 'bg-blue-200 text-blue-900 hover:bg-blue-500 hover:shadow-md transform '
                 : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }`}
           disabled={!isAvailable}
@@ -256,7 +256,7 @@ useEffect(() => {
     <div>
       <div className="calendar-container p-4 bg-white rounded-lg shadow-md">
         <div className="calendar-header flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-purple-900">
+          <h2 className="text-xl font-bold text-blue-900">
             {dateNow.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
           </h2>
           <div className="flex space-x-2">
@@ -267,13 +267,13 @@ useEffect(() => {
                 setDateNow(prevDate);
                 setSelectedDayIndex(1);
               }}
-              className="p-2 bg-purple-100 text-purple-800 rounded-md hover:bg-purple-200"
+              className="p-2 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200"
             >
               Previous
             </button>
             <button
               onClick={() => changeDate(dateNow)}
-              className="p-2 bg-purple-100 text-purple-800 rounded-md hover:bg-purple-200"
+              className="p-2 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200"
             >
               Next
             </button>
@@ -287,8 +287,8 @@ useEffect(() => {
               key={day.index}
               onClick={() => setSelectedDayIndex(day.index)}
               className={`flex-1 p-3 rounded-lg transition-all duration-200 ${selectedDayIndex === day.index
-                ? 'bg-purple-600 text-white shadow-md'
-                : 'bg-purple-100 text-purple-900 hover:bg-purple-200'
+                ? 'bg-blue-600 text-white shadow-md'
+                : 'bg-blue-100 text-blue-900 hover:bg-blue-200'
                 }`}
             >
               <div className="font-bold">{day.dayName}</div>
@@ -300,7 +300,7 @@ useEffect(() => {
         {/* Time slots */}
         {selectedDay && (
           <div className="time-slots-card border border-gray-200 rounded-lg p-4 bg-gray-50">
-            <h3 className="text-lg font-semibold text-purple-900 mb-3">
+            <h3 className="text-lg font-semibold text-blue-900 mb-3">
               Available Times for {selectedDay.dayName}, {selectedDay.dayMonth}
             </h3>
 
@@ -334,7 +334,7 @@ useEffect(() => {
 
         <div className="mt-4 flex items-center justify-center space-x-6">
           <div className="flex items-center">
-            <div className="w-4 h-4 bg-yellow-400 rounded-full mr-2"></div>
+            <div className="w-4 h-4 bg-blue-400 rounded-full mr-2"></div>
             <span className="text-sm text-gray-600">Available</span>
           </div>
           <div className="flex items-center">
@@ -367,7 +367,7 @@ useEffect(() => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 onClick={handleSendRequest}
                 disabled={requestLoading}
               >

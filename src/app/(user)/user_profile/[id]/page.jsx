@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding, faUser, faLock, faArrowLeft, faUserPlus, faSave, faEdit, faGraduationCap, faBriefcase, faTags, faPlus, faTimes, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faUser, faLock,faCreditCard, faArrowLeft, faUserPlus, faSave, faEdit, faGraduationCap, faBriefcase, faTags, faPlus, faTimes, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 
 export default function UserViewPage() {
@@ -232,23 +232,23 @@ export default function UserViewPage() {
         return (
             <div className="flex justify-center items-center h-screen bg-gray-50">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-purple-800 font-medium">Loading your profile...</p>
+                    <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-blue-800 font-medium">Loading your profile...</p>
                 </div>
             </div>
         );
     }
     return (
-        <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
+        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
             <div className="max-w-4xl mx-auto p-6">
                 {/* Header with gradient background */}
-                <div className="bg-gradient-to-r from-purple-700 to-indigo-800 rounded-lg shadow-lg p-6 mb-8 text-white">
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-800 rounded-lg shadow-lg p-6 mb-8 text-white">
                     <div className="flex justify-between items-center">
                         <div>
                             <h1 className="text-3xl font-bold">
                                 {profileExists ? 'Your User Profile' : 'Create Your User Profile'}
                             </h1>
-                            <p className="mt-2 text-purple-100">
+                            <p className="mt-2 text-blue-100">
                                 {profileExists
                                     ? 'Manage your personal information'
                                     : 'Set up your profile to get personalized care'}
@@ -257,7 +257,7 @@ export default function UserViewPage() {
                         {profileExists && !isEditing && (
                             <button
                                 onClick={() => setIsEditing(true)}
-                                className="bg-white text-purple-800 px-4 py-2 rounded-md flex items-center hover:bg-purple-100 transition-colors"
+                                className="bg-white text-blue-800 px-4 py-2 rounded-md flex items-center hover:bg-blue-100 transition-colors"
                             >
                                 <FontAwesomeIcon icon={faEdit} className="mr-2" />
                                 Edit Profile
@@ -274,13 +274,13 @@ export default function UserViewPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label htmlFor="gender" className="flex items-center text-md font-medium text-gray-700 mb-2">
-                                        <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                                        <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-600" />
                                         Gender
                                     </label>
                                     {isEditing ? (
                                         <select
                                             id="gender"
-                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                                             value={gender}
                                             onChange={(e) => setGender(e.target.value)}
                                         >
@@ -303,14 +303,14 @@ export default function UserViewPage() {
 
                                 <div>
                                     <label htmlFor="age" className="flex items-center text-md font-medium text-gray-700 mb-2">
-                                        <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                                        <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-500" />
                                         Age
                                     </label>
                                     {isEditing ? (
                                         <input
                                             type="number"
                                             id="age"
-                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                                             placeholder="Enter your age"
                                             value={age}
                                             onChange={(e) => setAge(e.target.value)}
@@ -330,14 +330,14 @@ export default function UserViewPage() {
 
                                 <div>
                                     <label htmlFor="profession" className="flex items-center text-md font-medium text-gray-700 mb-2">
-                                        <FontAwesomeIcon icon={faBriefcase} className="mr-2 text-purple-600" />
+                                        <FontAwesomeIcon icon={faBriefcase} className="mr-2 text-blue-500" />
                                         Profession
                                     </label>
                                     {isEditing ? (
                                         <input
                                             type="text"
                                             id="profession"
-                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                                             placeholder="Enter your profession"
                                             value={profession}
                                             onChange={(e) => setProfession(e.target.value)}
@@ -356,12 +356,12 @@ export default function UserViewPage() {
                                 {/* Health Concerns Section */}
                                 <div>
                                     <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                                        <FontAwesomeIcon icon={faTags} className="mr-2 text-purple-600" />
+                                        <FontAwesomeIcon icon={faTags} className="mr-2 text-blue-500" />
                                         Health Concerns
                                         {isEditing && concerns.length < 6 && (
                                             <button
                                                 onClick={addConcern}
-                                                className="ml-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+                                                className="ml-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
                                                 title="Add concern"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} className="text-xs" />
@@ -375,7 +375,7 @@ export default function UserViewPage() {
                                                 <div key={index} className="flex items-center">
                                                     <input
                                                         type="text"
-                                                        className="flex-grow border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                                                        className="flex-grow border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                                                         placeholder={`Concern ${index + 1} (e.g., Anxiety, Depression)`}
                                                         value={concern}
                                                         onChange={(e) => handleConcernChange(index, e.target.value)}
@@ -404,7 +404,7 @@ export default function UserViewPage() {
                                                         .map((concern, index) => (
                                                             <span
                                                                 key={index}
-                                                                className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
+                                                                className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
                                                             >
                                                                 {concern}
                                                             </span>
@@ -434,7 +434,7 @@ export default function UserViewPage() {
                                     )}
                                     <button
                                         onClick={handleSave}
-                                        className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-5 py-2 rounded-lg flex items-center transition-colors"
+                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-5 py-2 rounded-lg flex items-center transition-colors"
                                     >
                                         <FontAwesomeIcon icon={faSave} className="mr-2" />
                                         {profileExists ? 'Update Profile' : 'Create Profile'}
@@ -444,16 +444,16 @@ export default function UserViewPage() {
                         </div>
 
                         <div className="mt-8">
-                            <h2 className="text-2xl font-bold text-purple-900 mb-4">Your Appointments</h2>
+                            <h2 className="text-2xl font-bold text-blue-900 mb-4">Your Appointments</h2>
 
 
                             {/* Filters Section with Dropdowns */}
                             <div className="bg-white rounded-xl shadow-md p-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className="font-semibold text-purple-700 mr-2">Filter by Date:</span>
+                                    <span className="font-semibold text-blue-700 mr-2">Filter by Date:</span>
                                     <div className="relative">
                                         <select
-                                            className="px-3 text-black py-1 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                            className="px-3 text-black py-1 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             value={dateFilter}
                                             onChange={(e) => {
                                                 setDateFilter(e.target.value);
@@ -470,10 +470,10 @@ export default function UserViewPage() {
 
                                     {dateFilter === 'custom' && (
                                         <label className="flex items-center ml-2">
-                                            <FontAwesomeIcon icon={faCalendarAlt} className="mr-1 text-purple-600" />
+                                            <FontAwesomeIcon icon={faCalendarAlt} className="mr-1 text-blue-600" />
                                             <input
                                                 type="date"
-                                                className="border rounded px-2 py-1 focus:ring-2 focus:ring-purple-500"
+                                                className="border rounded px-2 py-1 focus:ring-2 focus:ring-blue-500"
                                                 value={customDate}
                                                 onChange={e => setCustomDate(e.target.value)}
                                             />
@@ -482,10 +482,10 @@ export default function UserViewPage() {
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className="font-semibold text-purple-700 mr-2">Status:</span>
+                                    <span className="font-semibold text-blue-700 mr-2">Status:</span>
                                     <div className="relative">
                                         <select
-                                            className="px-3 py-1 text-black rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                            className="px-3 py-1 text-black rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             value={statusFilter}
                                             onChange={(e) => setStatusFilter(e.target.value)}
                                         >
@@ -504,7 +504,7 @@ export default function UserViewPage() {
                             ) : (
                                 <div className="space-y-4">
                                     {filteredBookings.map(booking => (
-                                        <div key={booking.id} className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
+                                        <div key={booking.id} className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <h3 className="font-semibold text-lg">
@@ -526,6 +526,25 @@ export default function UserViewPage() {
                                                         }`}>
                                                         {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                                                     </span>
+                                                    {/* Payment Button - Only show for accepted bookings with unpaid status */}
+                                                    {booking.status === 'accepted' && booking.payment_status === 'unpaid' && (
+                                                        <Link href={`/payment/${booking.id}`}>
+                                                        <button
+                                                            
+                                                            className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm flex items-center mt-2"
+                                                        >
+                                                            <FontAwesomeIcon icon={faCreditCard} className="mr-1 " />
+                                                            Make Payment
+                                                        </button>
+                                                        </Link>
+                                                    )}
+
+                                                    {/* Show payment status if paid */}
+                                                    {booking.payment_status === 'paid' && (
+                                                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                                                            Paid
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -534,10 +553,17 @@ export default function UserViewPage() {
                             )}
                         </div>
 
-                        <button className="bg-red-500 text-white px-9 py-2 rounded-lg transition-colors duration-300 border-2 border-transparent hover:border-red-900 hover:bg-transparent hover:text-black ml-75 mt-10 "
-                            onClick={onDeleteAccount}
-                        >Delete Account
-                        </button>
+                        <div className="flex gap-4 mt-10">
+                            <Link href="/user-chats">
+                                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+                                    My Chats
+                                </button>
+                            </Link>
+                            <button className="bg-red-500 text-white px-9 py-2 rounded-lg transition-colors duration-300 border-2 border-transparent hover:border-red-900 hover:bg-transparent hover:text-black"
+                                onClick={onDeleteAccount}
+                            >Delete Account
+                            </button>
+                        </div>
                     </div>
 
                 </div>
@@ -545,7 +571,7 @@ export default function UserViewPage() {
 
 
                 <div className="mt-6">
-                    <Link href="/" className="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+                    <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
                         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
                         Back to Home
                     </Link>

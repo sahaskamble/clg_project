@@ -257,7 +257,7 @@ export default function Home() {
 
       {/* Therapist Section */}
       <section ref={therapistRef} className="py-16 bg-gray-50">
-        <TherapistInfoCard />
+        <TherapistInfoCard limit={3}/>
       </section>
 
       {/* CTA Section */}

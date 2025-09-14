@@ -81,7 +81,7 @@ export default function AdminDashboardPage() {
       const res = await pb.collection('therapist_profile').getFullList({
         filter: filterQuery,
         sort: '-created',
-        expand: 'therapistId'
+        expand: 'userId'
       });
       
       setTherapistRequests(res);
@@ -131,15 +131,15 @@ export default function AdminDashboardPage() {
   }, [statusFilter, dateFilter]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white p-6">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <Link href="/" className="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors mb-4">
+          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-4">
             <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
             Back to Home
           </Link>
-          <h1 className="text-3xl font-bold text-purple-900">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold text-blue-900">Admin Dashboard</h1>
           <p className="text-gray-600">Manage users and therapist applications</p>
         </div>
 
@@ -214,7 +214,7 @@ export default function AdminDashboardPage() {
         {/* Filters Section */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h2 className="text-xl font-semibold text-purple-800 flex items-center">
+            <h2 className="text-xl font-semibold text-blue-800 flex items-center">
               <FontAwesomeIcon icon={faFilter} className="mr-2" />
               Filter Therapist Applications
             </h2>
@@ -225,7 +225,7 @@ export default function AdminDashboardPage() {
                 <select
                   value={statusFilter}
                   onChange={handleStatusFilterChange}
-                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Statuses</option>
                   <option value="pending">Pending</option>
@@ -239,7 +239,7 @@ export default function AdminDashboardPage() {
                 <select
                   value={dateFilter}
                   onChange={handleDateFilterChange}
-                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Time</option>
                   <option value="today">Today</option>
@@ -254,8 +254,8 @@ export default function AdminDashboardPage() {
         {/* Loading State */}
         {isLoading && (
           <div className="text-center py-10">
-            <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-purple-800 font-medium">Loading dashboard data...</p>
+            <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-blue-800 font-medium">Loading dashboard data...</p>
           </div>
         )}
 
@@ -263,7 +263,7 @@ export default function AdminDashboardPage() {
         {!isLoading && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="p-4 border-b">
-              <h2 className="text-xl font-semibold text-purple-800">Therapist Applications</h2>
+              <h2 className="text-xl font-semibold text-blue-800">Therapist Applications</h2>
             </div>
             
             {therapistRequests.length === 0 ? (
@@ -277,15 +277,13 @@ export default function AdminDashboardPage() {
                   <div key={request.id} className="p-4 hover:bg-gray-50 transition-colors">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                       <div className="mb-3 md:mb-0">
-                        <h3 className="font-semibold text-lg text-purple-900">
+                        <h3 className="font-semibold text-lg text-blue-900">
                           {request.username || 'Therapist'}
                         </h3>
                         <p className="text-gray-600 text-sm">
                           Applied: {new Date(request.created).toLocaleDateString()}
                         </p>
-                        <p className="text-gray-600 text-sm">
-                          Email: {request.expand?.therapistId?.email || 'N/A'}
-                        </p>
+                       
                       </div>
 
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">

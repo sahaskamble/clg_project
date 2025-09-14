@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faUser, faLock, faArrowLeft, faUserPlus, faSave, faEdit, faGraduationCap, faBriefcase, faTags, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarAlt, faCheck, faTimesCircle, faHourglassHalf, faClipboardCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faCheck, faTimesCircle, faHourglassHalf, faClipboardCheck, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 export default function TherapistViewPage() {
   const router = useRouter();
@@ -25,6 +25,8 @@ export default function TherapistViewPage() {
   const [customDate, setCustomDate] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [status, setStatus] = useState('');
+  const [location, setLocation] = useState('');
+  const [contact, setContact] = useState('');
 
   console.log("Therapist profile id ", therapistId);
 
@@ -129,7 +131,9 @@ export default function TherapistViewPage() {
         setExperience(res[0].experience || '');
         setQualification(res[0].qualification || '');
         setUserName(res[0].username || '');
-        setStatus(res[0].status || '')
+        setStatus(res[0].status || '');
+        setLocation(res[0].location || '');
+        setContact(res[0].contact|| '');
         setIsEditing(false);
 
         if (res[0].specializations && Array.isArray(res[0].specializations)) {
@@ -260,7 +264,8 @@ export default function TherapistViewPage() {
           specializations: filteredSpecializations,
           therapistId: therapistId,
           username: username,
-
+          location: location,
+          contact:contact,
         });
         setProfileId(record.id);
         setProfileExists(true);
@@ -332,8 +337,8 @@ export default function TherapistViewPage() {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-50">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-purple-800 font-medium">Loading your profile...</p>
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-blue-800 font-medium">Loading your profile...</p>
         </div>
       </div>
     );
@@ -359,16 +364,16 @@ export default function TherapistViewPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <div className="max-w-4xl mx-auto p-6">
         <div className="mb-6">
-          <Link href="/" className="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
             <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
             Back to Home
           </Link>
         </div>
         {/* Header with gradient background */}
-        <div className="bg-gradient-to-r from-purple-700 to-indigo-800 rounded-lg shadow-lg p-6 mb-8 text-white">
+        <div className="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-lg shadow-lg p-6 mb-8 text-white">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold">
@@ -382,7 +387,7 @@ export default function TherapistViewPage() {
                   </span>
                 )}
               </h1>
-              <p className="mt-2 text-purple-100">
+              <p className="mt-2 text-blue-100">
                 {profileExists
                   ? 'Manage your professional information visible to clients'
                   : 'Set up your professional profile to connect with clients'}
@@ -391,7 +396,7 @@ export default function TherapistViewPage() {
             {profileExists && !isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="bg-white text-purple-800 px-4 py-2 rounded-md flex items-center hover:bg-purple-100 transition-colors"
+                className="bg-white text-blue-800 px-4 py-2 rounded-md flex items-center hover:bg-blue-100 transition-colors"
               >
                 <FontAwesomeIcon icon={faEdit} className="mr-2" />
                 Edit Profile
@@ -410,14 +415,14 @@ export default function TherapistViewPage() {
                   htmlFor="username"
                   className="flex items-center text-md font-medium text-gray-700 mb-2"
                 >
-                  <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                  <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-500" />
                   Username
                 </label>
                 {isEditing ? (
                   <input
                     type="text"
                     id="username"
-                    className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                    className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     placeholder="Enter your username"
                     value={username}
                     onChange={(e) => setUserName(e.target.value)}
@@ -435,14 +440,14 @@ export default function TherapistViewPage() {
 
               <div>
                 <label htmlFor="bio" className="flex items-center text-md font-medium text-gray-700 mb-2">
-                  <FontAwesomeIcon icon={faUser} className="mr-2 text-purple-600" />
+                  <FontAwesomeIcon icon={faUser} className="mr-2 text-blue-500" />
                   Professional Bio
                 </label>
                 {isEditing ? (
                   <textarea
                     id="bio"
                     rows="5"
-                    className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                    className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     placeholder="Describe your approach, specialties, and philosophy as a therapist..."
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
@@ -461,14 +466,14 @@ export default function TherapistViewPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="experience" className="flex items-center text-md font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faBriefcase} className="mr-2 text-purple-600" />
+                    <FontAwesomeIcon icon={faBriefcase} className="mr-2 text-blue-500" />
                     Years of Experience
                   </label>
                   {isEditing ? (
                     <input
                       type="number"
                       id="experience"
-                      className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                      className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                       placeholder="Enter years of experience"
                       value={experience}
                       onChange={(e) => setExperience(e.target.value)}
@@ -486,14 +491,14 @@ export default function TherapistViewPage() {
 
                 <div>
                   <label htmlFor="qualification" className="flex items-center text-md font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faGraduationCap} className="mr-2 text-purple-600" />
+                    <FontAwesomeIcon icon={faGraduationCap} className="mr-2 text-blue-500" />
                     Qualifications
                   </label>
                   {isEditing ? (
                     <input
                       type="text"
                       id="qualification"
-                      className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                      className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                       placeholder="Enter your qualifications (e.g., Ph.D., LMFT)"
                       value={qualification}
                       onChange={(e) => setQualification(e.target.value)}
@@ -509,15 +514,71 @@ export default function TherapistViewPage() {
                   )}
                 </div>
 
+                <div>
+  <label
+    htmlFor="location"
+    className="flex items-center text-md font-medium text-gray-700 mb-2"
+  >
+    <FontAwesomeIcon icon={faLocationDot} className="mr-2 text-blue-500" />
+    Location
+  </label>
+  {isEditing ? (
+    <input
+      type="text"
+      id="location"
+      className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+      placeholder="Enter your location "
+      value={location}
+      onChange={(e) => setLocation(e.target.value)}
+    />
+  ) : (
+    <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+      {location ? (
+        <p className="text-gray-700">{location}</p>
+      ) : (
+        <p className="text-gray-400 italic">No location listed</p>
+      )}
+    </div>
+  )}
+</div>
+
+<div>
+  <label
+    htmlFor="contact"
+    className="flex items-center text-md font-medium text-gray-700 mb-2"
+  >
+    <FontAwesomeIcon icon={faPhone} className="mr-2 text-blue-500" />
+    Contact
+  </label>
+  {isEditing ? (
+    <input
+      type="number"
+      id="contact"
+      className="w-full text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+      placeholder="Enter your contact number"
+      value={contact}
+      onChange={(e) => setContact(e.target.value)}
+    />
+  ) : (
+    <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+      {contact ? (
+        <p className="text-gray-700">{contact}</p>
+      ) : (
+        <p className="text-gray-400 italic">No contact no listed</p>
+      )}
+    </div>
+  )}
+</div>
+
                 {/* Specializations Section */}
                 <div>
                   <label className="flex items-center text-md font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faTags} className="mr-2 text-purple-600" />
+                    <FontAwesomeIcon icon={faTags} className="mr-2 text-blue-500" />
                     Specializations
                     {isEditing && specializations.length < 6 && (
                       <button
                         onClick={addSpecialization}
-                        className="ml-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+                        className="ml-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
                         title="Add specialization"
                       >
                         <FontAwesomeIcon icon={faPlus} className="text-xs" />
@@ -531,7 +592,7 @@ export default function TherapistViewPage() {
                         <div key={index} className="flex items-center">
                           <input
                             type="text"
-                            className="flex-grow text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                            className="flex-grow text-black border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                             placeholder={`Specialization ${index + 1} (e.g., Anxiety, Depression)`}
                             value={spec}
                             onChange={(e) => handleSpecializationChange(index, e.target.value)}
@@ -560,7 +621,7 @@ export default function TherapistViewPage() {
                             .map((spec, index) => (
                               <span
                                 key={index}
-                                className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
+                                className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
                               >
                                 {spec}
                               </span>
@@ -588,8 +649,8 @@ export default function TherapistViewPage() {
                   <>
                     <button
                       className={`px-4 py-2 rounded-xl font-semibold transition ${status === 'pending'
-                          ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                          : 'bg-yellow-200 hover:bg-yellow-300'
+                        ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                        : 'bg-yellow-200 hover:bg-yellow-300'
                         }`}
                       onClick={handleProfileRequest}
                       disabled={status === 'pending'}
@@ -601,8 +662,8 @@ export default function TherapistViewPage() {
                       Current Status:
                       <span
                         className={`ml-2 font-bold ${status === 'pending'
-                            ? 'text-yellow-600'
-                            : 'text-gray-500'
+                          ? 'text-yellow-600'
+                          : 'text-gray-500'
                           }`}
                       >
                         {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -620,10 +681,10 @@ export default function TherapistViewPage() {
               {/* Filters Section with Dropdowns */}
               <div className="bg-white rounded-xl shadow-md p-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-semibold text-purple-700 mr-2">Filter by Date:</span>
+                  <span className="font-semibold text-blue-700 mr-2">Filter by Date:</span>
                   <div className="relative">
                     <select
-                      className="px-3 text-black py-1 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                      className="px-3 text-black py-1 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       value={dateFilter}
                       onChange={(e) => {
                         setDateFilter(e.target.value);
@@ -640,10 +701,10 @@ export default function TherapistViewPage() {
 
                   {dateFilter === 'custom' && (
                     <label className="flex items-center ml-2">
-                      <FontAwesomeIcon icon={faCalendarAlt} className="mr-1 text-purple-600" />
+                      <FontAwesomeIcon icon={faCalendarAlt} className="mr-1 text-blue-600" />
                       <input
                         type="date"
-                        className="border rounded px-2 py-1 focus:ring-2 focus:ring-purple-500"
+                        className="border rounded px-2 py-1 focus:ring-2 focus:ring-blue-500"
                         value={customDate}
                         onChange={e => setCustomDate(e.target.value)}
                       />
@@ -652,10 +713,10 @@ export default function TherapistViewPage() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-semibold text-purple-700 mr-2">Status:</span>
+                  <span className="font-semibold text-blue-700 mr-2">Status:</span>
                   <div className="relative">
                     <select
-                      className="px-3 py-1 text-black rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                      className="px-3 py-1 text-black rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
                     >
@@ -670,7 +731,7 @@ export default function TherapistViewPage() {
               </div>
 
               <div className="mt-8">
-                <h2 className="text-2xl font-bold text-purple-900 mb-4">Booking Requests</h2>
+                <h2 className="text-2xl font-bold text-blue-900 mb-4">Booking Requests</h2>
 
                 {bookingRequests.length === 0 ? (
                   <div className="text-center py-8 bg-gray-50 rounded-lg">
@@ -679,10 +740,10 @@ export default function TherapistViewPage() {
                 ) : (
                   <div className="space-y-4">
                     {bookingRequests.map(request => (
-                      <div key={request.id} className="bg-gray-50 rounded-lg p-4 border-l-4 border-purple-500 hover:shadow-md transition-shadow">
+                      <div key={request.id} className="bg-gray-50 rounded-lg p-4 border-l-4 border-blue-500 hover:shadow-md transition-shadow">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-semibold text-lg text-purple-900">
+                            <h3 className="font-semibold text-lg text-blue-900">
                               {request.user_name || 'User'}
                             </h3>
                             {/* Add link to user profile */}
@@ -690,7 +751,7 @@ export default function TherapistViewPage() {
                             {request.userProfileId && (
                               <Link
                                 href={`/viewuser_profile/${request.userProfileId}`}
-                                className="text-purple-600 underline text-sm hover:text-purple-900"
+                                className="text-blue-600 underline text-sm hover:text-blue-900"
                               >
                                 View User Profile
                               </Link>
@@ -736,6 +797,15 @@ export default function TherapistViewPage() {
 
                               </div>
                             )}
+
+                            {request.status === 'accepted' && (
+                              <div className="mt-2 text-sm font-medium">
+                                Payment Status:{" "}
+                                <span className={request.payment_status === 'paid' ? 'text-green-600' : 'text-red-600'}>
+                                  {request.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -759,18 +829,26 @@ export default function TherapistViewPage() {
                   )}
                   <button
                     onClick={handleSave}
-                    className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-5 py-2 rounded-lg flex items-center transition-colors"
+                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-5 py-2 rounded-lg flex items-center transition-colors"
                   >
                     <FontAwesomeIcon icon={faSave} className="mr-2" />
                     {profileExists ? 'Update Profile' : 'Create Profile'}
                   </button>
                 </div>
               )}
+
             </div>
-            <button className="bg-red-500 text-white px-9 py-2 rounded-lg transition-colors duration-300 border-2 border-transparent hover:border-red-900 hover:bg-transparent hover:text-black ml-75 mt-10 "
-              onClick={onDeleteAccount}
-            >Delete Account
-            </button>
+            <div className="flex gap-4 mt-10">
+              <Link href="/therapist-chats">
+                <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors">
+                  Patient Chats
+                </button>
+              </Link>
+              <button className="bg-red-500 text-white px-9 py-2 rounded-lg transition-colors duration-300 border-2 border-transparent hover:border-red-900 hover:bg-transparent hover:text-black"
+                onClick={onDeleteAccount}
+              >Delete Account
+              </button>
+            </div>
           </div>
         </div>
 

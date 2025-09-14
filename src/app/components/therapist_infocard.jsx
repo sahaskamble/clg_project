@@ -9,25 +9,41 @@ import {
   faClock,
   faQuoteLeft,
   faGraduationCap,
-  faArrowRight
+  faArrowRight, faLocationDot, faPhone
 } from '@fortawesome/free-solid-svg-icons';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { createOrGetConversation } from '@/app/lib/chat';
 
-export default function TherapistInfoCard() {
+export default function TherapistInfoCard({limit}) {
   const [therapists, setTherapists] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const searchParams =  useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
 
-        // Fetch therapist profiles AND expand the linked user
-        const data = await pb.collection('therapist_profile').getFullList({
-          filter: 'status="accepted"',
-          expand: 'therapistId',
-        });
+        let filter = 'status="accepted"';
+        if(searchQuery) {
+          filter = `(username ~ "${searchQuery}" || location ~ "${searchQuery}") && ${filter}`;
+        }
 
-        setTherapists(data);
+        const options = {
+          filter,
+          expand: 'therapistId',
+          sort: '-created',
+        };
+
+        if (limit) {
+          options['perPage'] = limit;  // Limit number of therapists
+          options['sort'] = '-created'; // Sort by newest first
+        }
+
+        const data = await pb.collection('therapist_profile').getList(1, limit || 50, options);
+        console.log("Therapist Data InfoCard",data);
+        setTherapists(data.items || data);  // getList returns an object with `.items`, while getFullList returns an array
       } catch (error) {
         console.error("Error fetching therapists:", error);
       } finally {
@@ -36,7 +52,8 @@ export default function TherapistInfoCard() {
     };
 
     fetchData();
-  }, []);
+  }, [limit, searchQuery]);
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -101,6 +118,22 @@ export default function TherapistInfoCard() {
                   <p className="text-gray-700 text-sm line-clamp-3">{therapist.bio || 'No bio available'}</p>
                 </div>
 
+                <div className="mb-4">
+                  <div className="flex items-center mb-2">
+                    <FontAwesomeIcon icon={faLocationDot} className="text-blue-400 text-sm mr-1" />
+                    <p className="text-xs text-gray-500">Location</p>
+                  </div>
+                  <p className="text-gray-700 text-sm line-clamp-3">{therapist.location || 'No location available'}</p>
+                </div>
+
+                <div className="mb-4">
+                  <div className="flex items-center mb-2">
+                    <FontAwesomeIcon icon={faPhone} className="text-blue-400 text-sm mr-1" />
+                    <p className="text-xs text-gray-500">Conatct Info</p>
+                  </div>
+                  <p className="text-gray-700 text-sm line-clamp-3">{therapist.contact || 'No contact available'}</p>
+                </div>
+
                 {therapist.specializations && therapist.specializations.length > 0 && (
                   <div className="mb-4">
                     <p className="text-xs text-gray-500 mb-2">Areas of Expertise</p>
@@ -124,12 +157,13 @@ export default function TherapistInfoCard() {
               </div>
 
               {/* Card Footer */}
-              <div className="bg-blue-50 hover:bg-blue-300 px-5 py-4 border-t border-gray-200 flex justify-center">
+              <div className="bg-blue-50 px-5 py-4 border-t border-gray-200 flex justify-between items-center">
                 <Link href={`/view_profile/${therapist.id}`}>
                   <button className="font-medium text-md flex items-center gap-1 transition-colors duration-200">
                     View Profile
                   </button>
                 </Link>
+                <ChatAction therapistProfile={therapist} />
               </div>
 
 
@@ -151,5 +185,29 @@ export default function TherapistInfoCard() {
         </div>
       )}
     </div>
+  );
+}
+
+function ChatAction({ therapistProfile }) {
+  const router = useRouter();
+  const me = pb.authStore.record;
+  const therapistId = therapistProfile?.therapistId || therapistProfile?.expand?.therapistId?.id;
+
+  async function onChat() {
+    try {
+      if (!me?.id) return alert('Please login to chat');
+      if (!therapistId) return alert('Invalid therapist');
+      const convo = await createOrGetConversation({ userId: me.id, therapistId });
+      router.push(`/chat/${convo.id}`);
+    } catch (e) {
+      console.error(e);
+      alert('Failed to open chat');
+    }
+  }
+
+  return (
+    <button onClick={onChat} className="font-medium text-sm px-3 py-2 bg-blue-600 text-white rounded">
+      Chat
+    </button>
   );
 }

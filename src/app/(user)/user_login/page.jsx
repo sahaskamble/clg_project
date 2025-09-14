@@ -63,12 +63,12 @@ export default function UserLoginPage() {
                     className="object-cover"
                     priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-indigo-900/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-indigo-900/80"></div>
             </div>
 
             {/* Back to home link */}
             <div className="relative z-10 pt-4 pl-4">
-                <Link href="/" className="inline-flex items-center text-white hover:text-purple-200 transition-colors text-sm">
+                <Link href="/" className="inline-flex items-center text-white hover:text-blue-200 transition-colors text-sm">
                     <FontAwesomeIcon icon={faArrowLeft} className="mr-1 text-xs" />
                     <span>Back</span>
                 </Link>
@@ -78,33 +78,33 @@ export default function UserLoginPage() {
             <div className="relative z-10 flex justify-center items-center min-h-screen py-12 px-4">
                 <div className="bg-white rounded-lg shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
                     {/* Left side - Brand information */}
-                    <div className="bg-purple-900 text-white p-6 md:w-1/3 flex flex-col justify-between">
+                    <div className="bg-blue-900 text-white p-6 md:w-1/3 flex flex-col justify-between">
                         <div>
                             <div className="flex items-center mb-4">
                                 <FontAwesomeIcon icon={faBuilding} className="text-xl mr-2" />
                                 <h2 className="text-lg font-bold">Blue Sage</h2>
                             </div>
                             <h1 className="text-2xl font-bold mb-3">Welcome Back</h1>
-                            <p className="mb-6 text-purple-100">
+                            <p className="mb-6 text-blue-100">
                                 Sign in to access your account and continue your healthcare journey with us.
                             </p>
                             <div className="space-y-4 mt-8">
                                 <div className="flex items-center">
-                                    <div className="w-10 h-10 rounded-full bg-purple-800 flex items-center justify-center mr-3">
-                                        <FontAwesomeIcon icon={faUser} className="text-purple-200" />
+                                    <div className="w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center mr-3">
+                                        <FontAwesomeIcon icon={faUser} className="text-blue-200" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold">Personal Dashboard</h3>
-                                        <p className="text-sm text-purple-200">Access your health records and appointments</p>
+                                        <p className="text-sm text-blue-200">Access your health records and appointments</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
-                                    <div className="w-10 h-10 rounded-full bg-purple-800 flex items-center justify-center mr-3">
-                                        <FontAwesomeIcon icon={faUserPlus} className="text-purple-200" />
+                                    <div className="w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center mr-3">
+                                        <FontAwesomeIcon icon={faUserPlus} className="text-blue-200" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold">New User?</h3>
-                                        <p className="text-sm text-purple-200">
+                                        <p className="text-sm text-blue-200">
                                             <Link href="/user_register" className="underline hover:text-white transition-colors">
                                                 Create an account
                                             </Link> to get started
@@ -113,8 +113,8 @@ export default function UserLoginPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-12 pt-6 border-t border-purple-800">
-                            <p className="text-sm text-purple-200">
+                        <div className="mt-12 pt-6 border-t border-blue-800">
+                            <p className="text-sm text-blue-200">
                                 &copy; 2023 Blue Sage Healthcare. All rights reserved.
                             </p>
                         </div>
@@ -156,7 +156,7 @@ export default function UserLoginPage() {
                                             name="email"
                                             className={`pl-10 block w-full rounded-md border py-2 px-3 focus:outline-none focus:ring-2 ${errors.username
                                                 ? 'border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50'
-                                                : 'border-gray-300 focus:ring-purple-500 focus:border-purple-500'
+                                                : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                                                 }`}
                                             placeholder="Enter your email address"
                                             onChange={(e) => {
@@ -193,7 +193,7 @@ export default function UserLoginPage() {
                                             name="password"
                                             className={`pl-10 block w-full rounded-md border py-2 px-3 focus:outline-none focus:ring-2 ${errors.password
                                                 ? 'border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50'
-                                                : 'border-gray-300 focus:ring-purple-500 focus:border-purple-500'
+                                                : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                                                 }`}
                                             placeholder="Enter your password"
                                             onChange={(e) => {
@@ -221,7 +221,7 @@ export default function UserLoginPage() {
                                         id="remember-me"
                                         name="remember-me"
                                         type="checkbox"
-                                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                                     />
                                     <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                                         Remember me
@@ -229,7 +229,7 @@ export default function UserLoginPage() {
                                 </div>
 
                                 <div className="text-sm">
-                                    <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
+                                    <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
                                         Forgot your password?
                                     </a>
                                 </div>
@@ -238,7 +238,7 @@ export default function UserLoginPage() {
                             <div className="flex flex-col space-y-3 pt-4">
                                 <button
                                     type="button"
-                                    className={`w-full bg-purple-900 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded-md shadow transition-all duration-200 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                    className={`w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-md shadow transition-all duration-200 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                                     onClick={handleLogin}
                                     disabled={isSubmitting}
                                 >
@@ -257,7 +257,7 @@ export default function UserLoginPage() {
                                 <Link href="/user_register" className="w-full">
                                     <button
                                         type="button"
-                                        className="w-full bg-white border border-purple-900 hover:bg-purple-50 text-purple-900 font-semibold py-2 px-4 rounded-md shadow transition-colors duration-200"
+                                        className="w-full bg-white border border-blue-900 hover:bg-blue-50 text-blue-900 font-semibold py-2 px-4 rounded-md shadow transition-colors duration-200"
                                     >
                                         Create Account
                                     </button>
